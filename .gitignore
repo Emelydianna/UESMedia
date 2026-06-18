@@ -1,0 +1,14 @@
+# Compilación
+/build/
+/dist/
+
+# Configuración privada NetBeans
+/nbproject/private/
+
+# Archivos temporales
+*.class
+*.log
+
+# Sistema Linux
+.DS_Store
+Thumbs.db
