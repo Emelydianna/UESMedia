@@ -10,18 +10,14 @@ import java.util.Date;
  *
  * @author emely
  */
-public class Recurso {
-    
+public class Prestamo {
     private int id;
-    private int modelo_id;
 
-    private String codigo;
-    private String nombre;
-    private String tipo;
-    private String descripcion;
+    private int docente_id;
+
+    private Date fecha_inicio;
+    private Date fecha_fin;
+    private Date fecha_devolucion;
+
     private String estado;
-
-    private boolean en_mantenimiento;
-
-    private Date fecha_registro;
 }

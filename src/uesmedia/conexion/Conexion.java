@@ -39,11 +39,13 @@ public class Conexion {
     private static String USER;
     private static String PASSWORD;
 
+
     static {
 
         try {
 
             Properties props = new Properties();
+
 
             props.load(
                 new FileInputStream(
@@ -51,9 +53,11 @@ public class Conexion {
                 )
             );
 
+
             URL = props.getProperty("db.url");
             USER = props.getProperty("db.user");
             PASSWORD = props.getProperty("db.password");
+
 
         } catch (IOException e) {
 
@@ -62,11 +66,16 @@ public class Conexion {
                 + e.getMessage()
             );
         }
+
     }
+
+
 
     public static Connection getConexion() {
 
+
         try {
+
 
             return DriverManager.getConnection(
                 URL,
@@ -74,14 +83,18 @@ public class Conexion {
                 PASSWORD
             );
 
+
         } catch (SQLException e) {
+
 
             System.out.println(
                 "Error de conexión: "
                 + e.getMessage()
             );
 
+
             return null;
         }
+
     }
 }

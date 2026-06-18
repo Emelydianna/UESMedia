@@ -4,24 +4,13 @@
  */
 package uesmedia.modelo;
 
-import java.util.Date;
-
 /**
  *
  * @author emely
  */
-public class Recurso {
-    
+public class Marca {
+
     private int id;
-    private int modelo_id;
-
-    private String codigo;
     private String nombre;
-    private String tipo;
-    private String descripcion;
-    private String estado;
 
-    private boolean en_mantenimiento;
-
-    private Date fecha_registro;
 }
