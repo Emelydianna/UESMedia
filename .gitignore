@@ -2,13 +2,18 @@
 /build/
 /dist/
 
-# Configuración privada NetBeans
+# Configuración privada de NetBeans
 /nbproject/private/
 
-# Archivos temporales
+# Configuración local de cada integrante
+config/database.properties
+
+# Archivo compilados Java
 *.class
+
+# Logs
 *.log
 
-# Sistema Linux
+# Archivos del sistema
 .DS_Store
 Thumbs.db
