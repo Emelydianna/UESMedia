@@ -4,10 +4,31 @@
  */
 package uesmedia.util;
 
+import javax.swing.JOptionPane;
 /**
  *
  * @author emely
  */
 public class Mensajes {
-    
+
+    public static void informacion(String mensaje){
+
+        JOptionPane.showMessageDialog(
+                null,
+                mensaje
+        );
+
+    }
+
+    public static void error(String mensaje){
+
+        JOptionPane.showMessageDialog(
+                null,
+                mensaje,
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+    }
+
 }

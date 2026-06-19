@@ -114,5 +114,45 @@ public class ModeloDAO {
 
         return false;
     }
+    
+    // LISTAR MODELOS POR MARCA
+    public ArrayList<Modelo> listarPorMarca(int marcaId){
+
+        ArrayList<Modelo> lista =
+                new ArrayList<>();
+
+        String sql =
+        "SELECT * FROM modelos WHERE marca_id=?";
+
+        try(Connection con = Conexion.getConexion();
+            PreparedStatement ps =
+                    con.prepareStatement(sql)){
+
+            ps.setInt(1, marcaId);
+
+            ResultSet rs =
+                    ps.executeQuery();
+
+            while(rs.next()){
+
+                Modelo m = new Modelo();
+
+                m.setId(rs.getInt("id"));
+                m.setMarcaId(rs.getInt("marca_id"));
+                m.setNombre(rs.getString("nombre"));
+
+                lista.add(m);
+
+            }
+
+        }catch(Exception e){
+
+            System.out.println(e);
+
+        }
+
+        return lista;
+
+    }
 
 }

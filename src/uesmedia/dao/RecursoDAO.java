@@ -143,5 +143,70 @@ public class RecursoDAO {
 
         return false;
     }
+    // LISTAR RECURSOS CON MARCA Y MODELO
+    public ArrayList<Recurso> listarConDetalle(){
 
+        ArrayList<Recurso> lista =
+                new ArrayList<>();
+
+        String sql =
+        "SELECT r.*, "
+        + "m.nombre AS modelo, "
+        + "ma.nombre AS marca "
+        + "FROM recursos r "
+        + "INNER JOIN modelos m "
+        + "ON r.modelo_id = m.id "
+        + "INNER JOIN marcas ma "
+        + "ON m.marca_id = ma.id";
+
+        try(Connection con = Conexion.getConexion();
+            PreparedStatement ps =
+                    con.prepareStatement(sql);
+            ResultSet rs =
+                    ps.executeQuery()){
+
+            while(rs.next()){
+
+                Recurso r = new Recurso();
+
+                r.setId(rs.getInt("id"));
+                r.setModeloId(rs.getInt("modelo_id"));
+                r.setCodigo(rs.getString("codigo"));
+                r.setNombre(rs.getString("nombre"));
+                r.setTipo(rs.getString("tipo"));
+                r.setDescripcion(rs.getString("descripcion"));
+                r.setEstado(rs.getString("estado"));
+                r.setEnMantenimiento(
+                        rs.getBoolean(
+                                "en_mantenimiento"
+                        )
+                );
+
+                r.setFechaRegistro(
+                        rs.getDate(
+                                "fecha_registro"
+                        )
+                );
+
+                r.setNombreMarca(
+                        rs.getString("marca")
+                );
+
+                r.setNombreModelo(
+                        rs.getString("modelo")
+                );
+
+                lista.add(r);
+
+            }
+
+        }catch(Exception e){
+
+            System.out.println(e);
+
+        }
+
+        return lista;
+
+    }
 }

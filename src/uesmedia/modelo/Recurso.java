@@ -21,6 +21,8 @@ public class Recurso {
     private String estado;
     private boolean enMantenimiento;
     private Date fechaRegistro;
+    private String nombreMarca;
+    private String nombreModelo;
 
     public Recurso() {
     }
@@ -110,5 +112,21 @@ public class Recurso {
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+    
+    public String getNombreMarca() {
+    return nombreMarca;
+    }
+
+    public void setNombreMarca(String nombreMarca) {
+        this.nombreMarca = nombreMarca;
+    }
+
+    public String getNombreModelo() {
+        return nombreModelo;
+    }
+
+    public void setNombreModelo(String nombreModelo) {
+        this.nombreModelo = nombreModelo;
     }
 }

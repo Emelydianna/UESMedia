@@ -4,10 +4,14 @@
  */
 package uesmedia.util;
 
+import uesmedia.modelo.Usuario;
+
 /**
  *
  * @author emely
  */
 public class Sesion {
-    
+
+    public static Usuario usuarioActual;
+
 }
