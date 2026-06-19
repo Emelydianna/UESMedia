@@ -5,14 +5,63 @@
 package uesmedia.dao;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import uesmedia.conexion.Conexion;
+import uesmedia.modelo.DetallePrestamo;
 /**
  *
  * @author emely
  */
 public class DetallePrestamoDAO {
 
+    // LISTAR DETALLES DE UN PRÉSTAMO
+    public ArrayList<DetallePrestamo> listarPorPrestamo(int prestamoId){
+
+        ArrayList<DetallePrestamo> lista = new ArrayList<>();
+
+        String sql =
+        "SELECT dp.*, r.nombre AS nombre_recurso "
+        + "FROM detalle_prestamo dp "
+        + "INNER JOIN recursos r "
+        + "ON dp.recurso_id = r.id "
+        + "WHERE dp.prestamo_id = ?";
+
+        try(Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, prestamoId);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                DetallePrestamo d = new DetallePrestamo();
+
+                d.setId(rs.getInt("id"));
+                d.setPrestamoId(rs.getInt("prestamo_id"));
+                d.setRecursoId(rs.getInt("recurso_id"));
+                d.setEstadoEntrega(rs.getString("estado_entrega"));
+                d.setEstadoRetorno(rs.getString("estado_retorno"));
+
+                // campo auxiliar para JTable
+                d.setNombreRecurso(
+                        rs.getString("nombre_recurso")
+                );
+
+                lista.add(d);
+            }
+
+        }catch(Exception e){
+
+            System.out.println(e);
+
+        }
+
+        return lista;
+    }
+
+    // REGISTRAR DEVOLUCIÓN DE UN RECURSO
     public boolean devolverRecurso(
             int detalleId,
             int recursoId,
@@ -34,29 +83,20 @@ public class DetallePrestamoDAO {
             PreparedStatement psDetalle =
             con.prepareStatement(sqlDetalle);
 
-            psDetalle.setString(
-                    1,
-                    estadoRetorno
-            );
-
-            psDetalle.setInt(
-                    2,
-                    detalleId
-            );
+            psDetalle.setString(1, estadoRetorno);
+            psDetalle.setInt(2, detalleId);
 
             psDetalle.executeUpdate();
 
-            String nuevoEstado;
+            String estadoRecurso;
 
-            if(
-               estadoRetorno.equals("DEVUELTO")
-            ){
+            if(estadoRetorno.equals("DEVUELTO")){
 
-                nuevoEstado = "DISPONIBLE";
+                estadoRecurso = "DISPONIBLE";
 
             }else{
 
-                nuevoEstado = "MANTENIMIENTO";
+                estadoRecurso = "MANTENIMIENTO";
 
             }
 
@@ -68,15 +108,8 @@ public class DetallePrestamoDAO {
             PreparedStatement psRecurso =
             con.prepareStatement(sqlRecurso);
 
-            psRecurso.setString(
-                    1,
-                    nuevoEstado
-            );
-
-            psRecurso.setInt(
-                    2,
-                    recursoId
-            );
+            psRecurso.setString(1, estadoRecurso);
+            psRecurso.setInt(2, recursoId);
 
             psRecurso.executeUpdate();
 
@@ -122,6 +155,61 @@ public class DetallePrestamoDAO {
 
         }
 
+    }
+
+    // VERIFICAR SI TODOS LOS RECURSOS FUERON DEVUELTOS
+    public boolean todosDevueltos(int prestamoId){
+
+        String sql =
+        "SELECT COUNT(*) total "
+        + "FROM detalle_prestamo "
+        + "WHERE prestamo_id=? "
+        + "AND estado_retorno='PENDIENTE'";
+
+        try(Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, prestamoId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+
+                return rs.getInt("total") == 0;
+
+            }
+
+        }catch(Exception e){
+
+            System.out.println(e);
+
+        }
+
+        return false;
+    }
+
+    // FINALIZAR PRÉSTAMO
+    public boolean finalizarPrestamo(int prestamoId){
+
+        String sql =
+        "UPDATE prestamos "
+        + "SET estado='FINALIZADO' "
+        + "WHERE id=?";
+
+        try(Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql)){
+
+            ps.setInt(1, prestamoId);
+
+            return ps.executeUpdate() > 0;
+
+        }catch(Exception e){
+
+            System.out.println(e);
+
+        }
+
+        return false;
     }
 
 }

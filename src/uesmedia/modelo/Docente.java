@@ -10,76 +10,60 @@ package uesmedia.modelo;
  */
 public class Docente {
 
-
     private int id;
     private String carnet;
     private String nombre;
     private String telefono;
     private String correo;
 
-
-
-    public Docente(){
-
+    public Docente() {
     }
 
+    public Docente(int id, String carnet, String nombre, String telefono, String correo) {
+        this.id = id;
+        this.carnet = carnet;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.correo = correo;
+    }
 
-
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-
-    public void setId(int id){
-        this.id=id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-
-
-    public String getCarnet(){
+    public String getCarnet() {
         return carnet;
     }
 
-
-    public void setCarnet(String carnet){
-        this.carnet=carnet;
+    public void setCarnet(String carnet) {
+        this.carnet = carnet;
     }
 
-
-
-
-    public String getNombre(){
+    public String getNombre() {
         return nombre;
     }
 
-
-    public void setNombre(String nombre){
-        this.nombre=nombre;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-
-
-
-    public String getTelefono(){
+    public String getTelefono() {
         return telefono;
     }
 
-
-    public void setTelefono(String telefono){
-        this.telefono=telefono;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
-
-
-
-    public String getCorreo(){
+    public String getCorreo() {
         return correo;
     }
 
-
-    public void setCorreo(String correo){
-        this.correo=correo;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
-
-
 }
