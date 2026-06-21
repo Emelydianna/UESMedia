@@ -209,4 +209,74 @@ public class RecursoDAO {
         return lista;
 
     }
+    //Contador 
+    public int contarRecursos() {
+        int total = 0;
+
+        String sql = "SELECT COUNT(*) FROM recursos";
+
+        try (
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return total;
+    }
+    
+    //Contador para mantenimiento
+    public int contarRecursosMantenimiento() {
+        int total = 0;
+
+        String sql =
+            "SELECT COUNT(*) FROM recursos WHERE en_mantenimiento = true";
+
+        try (
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return total;
+    }
+    //Contador recursos disponibles 
+    public int contarDisponibles() {
+
+        int total = 0;
+
+        String sql =
+            "SELECT COUNT(*) FROM recursos WHERE en_mantenimiento = false";
+
+        try (
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return total;
+    }
 }

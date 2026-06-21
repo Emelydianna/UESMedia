@@ -4,6 +4,10 @@
  */
 package uesmedia.vista;
 
+import uesmedia.dao.DocenteDAO;
+import uesmedia.dao.RecursoDAO;
+import uesmedia.dao.PrestamoDAO;
+import uesmedia.modelo.Usuario;
 /**
  *
  * @author emely
@@ -11,14 +15,65 @@ package uesmedia.vista;
 public class FrmDashboard extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmDashboard.class.getName());
-
-    /**
-     * Creates new form FrmDashboard
-     */
+    private Usuario usuario;
+   
     public FrmDashboard() {
         initComponents();
     }
 
+    public FrmDashboard(Usuario usuario) {
+
+        initComponents();
+
+          this.usuario = usuario;
+
+          jLabel4.setText(usuario.getNombre());
+
+        cargarDashboard();
+    }
+    
+    private void cargarDashboard() {
+
+        DocenteDAO docenteDAO = new DocenteDAO();
+        RecursoDAO recursoDAO = new RecursoDAO();
+        PrestamoDAO prestamoDAO = new PrestamoDAO();
+
+        System.out.println("Docentes: " +
+                docenteDAO.contarDocentes());
+
+        System.out.println("Recursos: " +
+                recursoDAO.contarRecursos());
+
+        System.out.println("Disponibles: " +
+                recursoDAO.contarDisponibles());
+
+        System.out.println("Mantenimiento: " +
+                recursoDAO.contarRecursosMantenimiento());
+
+        System.out.println("Activos: " +
+                prestamoDAO.contarPrestamosActivos());
+
+        System.out.println("Vencidos: " +
+                prestamoDAO.contarPrestamosVencidos());
+
+        lblDocentes.setText(
+                String.valueOf(docenteDAO.contarDocentes()));
+
+        lblRecursos.setText(
+                String.valueOf(recursoDAO.contarRecursos()));
+
+        lblDisponibles.setText(
+                String.valueOf(recursoDAO.contarDisponibles()));
+
+        lblMantenimiento.setText(
+                String.valueOf(recursoDAO.contarRecursosMantenimiento()));
+
+        lblActivos.setText(
+                String.valueOf(prestamoDAO.contarPrestamosActivos()));
+
+        lblVencidos.setText(
+                String.valueOf(prestamoDAO.contarPrestamosVencidos()));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,21 +83,345 @@ public class FrmDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        cardDocentes = new javax.swing.JPanel();
+        lblDocentes = new javax.swing.JLabel();
+        cardRecursos = new javax.swing.JPanel();
+        lblRecursos = new javax.swing.JLabel();
+        cardMantenimiento = new javax.swing.JPanel();
+        lblMantenimiento = new javax.swing.JLabel();
+        cardActivos = new javax.swing.JPanel();
+        lblActivos = new javax.swing.JLabel();
+        cardVencidos = new javax.swing.JPanel();
+        lblVencidos = new javax.swing.JLabel();
+        cardDisponibles = new javax.swing.JPanel();
+        lblDisponibles = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        btnDocentes = new javax.swing.JButton();
+        btnRecursos = new javax.swing.JButton();
+        btnPrestamos = new javax.swing.JButton();
+        btnHistorial = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
+
+        jLabel3.setText("jLabel3");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("UESMedia - Dashboard");
+        setBackground(new java.awt.Color(153, 153, 153));
+
+        jPanel1.setBackground(new java.awt.Color(153, 0, 0));
+
+        jLabel1.setFont(new java.awt.Font("Fira Sans", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Bienvenido/a ");
+
+        jLabel2.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("UES-MEDIA");
+
+        jLabel4.setFont(new java.awt.Font("Fira Sans", 1, 24)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Bienvenido/a ");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(177, 177, 177)
+                        .addComponent(jLabel1)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(412, 412, 412)
+                        .addComponent(jLabel2)))
+                .addContainerGap(531, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel1))
+                .addGap(27, 27, 27))
+        );
+
+        cardDocentes.setBackground(new java.awt.Color(255, 255, 255));
+        cardDocentes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total Docentes Registrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Fira Sans", 1, 14), new java.awt.Color(204, 0, 0))); // NOI18N
+
+        lblDocentes.setFont(new java.awt.Font("Fira Sans", 1, 36)); // NOI18N
+        lblDocentes.setForeground(new java.awt.Color(51, 51, 255));
+        lblDocentes.setText("0");
+
+        javax.swing.GroupLayout cardDocentesLayout = new javax.swing.GroupLayout(cardDocentes);
+        cardDocentes.setLayout(cardDocentesLayout);
+        cardDocentesLayout.setHorizontalGroup(
+            cardDocentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardDocentesLayout.createSequentialGroup()
+                .addContainerGap(201, Short.MAX_VALUE)
+                .addComponent(lblDocentes, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
+        );
+        cardDocentesLayout.setVerticalGroup(
+            cardDocentesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardDocentesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblDocentes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        cardRecursos.setBackground(new java.awt.Color(255, 255, 255));
+        cardRecursos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total Recursos Registrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Fira Sans", 1, 14), new java.awt.Color(204, 0, 0))); // NOI18N
+
+        lblRecursos.setFont(new java.awt.Font("Fira Sans", 1, 36)); // NOI18N
+        lblRecursos.setForeground(new java.awt.Color(0, 0, 204));
+        lblRecursos.setText("0");
+
+        javax.swing.GroupLayout cardRecursosLayout = new javax.swing.GroupLayout(cardRecursos);
+        cardRecursos.setLayout(cardRecursosLayout);
+        cardRecursosLayout.setHorizontalGroup(
+            cardRecursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardRecursosLayout.createSequentialGroup()
+                .addContainerGap(200, Short.MAX_VALUE)
+                .addComponent(lblRecursos, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+        );
+        cardRecursosLayout.setVerticalGroup(
+            cardRecursosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardRecursosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblRecursos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(16, 16, 16))
+        );
+
+        cardMantenimiento.setBackground(new java.awt.Color(255, 255, 255));
+        cardMantenimiento.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total Recursos en Mantenimiento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Fira Sans", 1, 14), new java.awt.Color(204, 0, 0))); // NOI18N
+
+        lblMantenimiento.setFont(new java.awt.Font("Fira Sans", 1, 36)); // NOI18N
+        lblMantenimiento.setForeground(new java.awt.Color(0, 51, 204));
+        lblMantenimiento.setText("0");
+
+        javax.swing.GroupLayout cardMantenimientoLayout = new javax.swing.GroupLayout(cardMantenimiento);
+        cardMantenimiento.setLayout(cardMantenimientoLayout);
+        cardMantenimientoLayout.setHorizontalGroup(
+            cardMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardMantenimientoLayout.createSequentialGroup()
+                .addContainerGap(202, Short.MAX_VALUE)
+                .addComponent(lblMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
+        cardMantenimientoLayout.setVerticalGroup(
+            cardMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardMantenimientoLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(lblMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        cardActivos.setBackground(new java.awt.Color(255, 255, 255));
+        cardActivos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Préstamos Activos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Fira Sans", 1, 14), new java.awt.Color(204, 0, 0))); // NOI18N
+
+        lblActivos.setFont(new java.awt.Font("Fira Sans", 1, 36)); // NOI18N
+        lblActivos.setForeground(new java.awt.Color(0, 51, 204));
+        lblActivos.setText("0");
+
+        javax.swing.GroupLayout cardActivosLayout = new javax.swing.GroupLayout(cardActivos);
+        cardActivos.setLayout(cardActivosLayout);
+        cardActivosLayout.setHorizontalGroup(
+            cardActivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardActivosLayout.createSequentialGroup()
+                .addContainerGap(212, Short.MAX_VALUE)
+                .addComponent(lblActivos, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        cardActivosLayout.setVerticalGroup(
+            cardActivosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cardActivosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblActivos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
+        );
+
+        cardVencidos.setBackground(new java.awt.Color(255, 255, 255));
+        cardVencidos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Préstamos Vencidos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Fira Sans", 1, 14), new java.awt.Color(204, 0, 0))); // NOI18N
+
+        lblVencidos.setFont(new java.awt.Font("Fira Sans", 1, 36)); // NOI18N
+        lblVencidos.setForeground(new java.awt.Color(0, 51, 204));
+        lblVencidos.setText("0");
+
+        javax.swing.GroupLayout cardVencidosLayout = new javax.swing.GroupLayout(cardVencidos);
+        cardVencidos.setLayout(cardVencidosLayout);
+        cardVencidosLayout.setHorizontalGroup(
+            cardVencidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardVencidosLayout.createSequentialGroup()
+                .addContainerGap(212, Short.MAX_VALUE)
+                .addComponent(lblVencidos, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        cardVencidosLayout.setVerticalGroup(
+            cardVencidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblVencidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        cardDisponibles.setBackground(new java.awt.Color(255, 255, 255));
+        cardDisponibles.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Total Recursos Disponibles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Fira Sans", 1, 14), new java.awt.Color(204, 0, 0))); // NOI18N
+
+        lblDisponibles.setFont(new java.awt.Font("Fira Sans", 1, 36)); // NOI18N
+        lblDisponibles.setForeground(new java.awt.Color(0, 51, 204));
+        lblDisponibles.setText("0");
+
+        javax.swing.GroupLayout cardDisponiblesLayout = new javax.swing.GroupLayout(cardDisponibles);
+        cardDisponibles.setLayout(cardDisponiblesLayout);
+        cardDisponiblesLayout.setHorizontalGroup(
+            cardDisponiblesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardDisponiblesLayout.createSequentialGroup()
+                .addContainerGap(204, Short.MAX_VALUE)
+                .addComponent(lblDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+        );
+        cardDisponiblesLayout.setVerticalGroup(
+            cardDisponiblesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardDisponiblesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblDisponibles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(17, 17, 17))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Menú Principal", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Fira Sans", 1, 36), new java.awt.Color(153, 0, 51))); // NOI18N
+
+        btnDocentes.setBackground(new java.awt.Color(255, 204, 204));
+        btnDocentes.setFont(new java.awt.Font("Fira Sans", 1, 24)); // NOI18N
+        btnDocentes.setText("Gestionar Docentes");
+        btnDocentes.addActionListener(this::btnDocentesActionPerformed);
+
+        btnRecursos.setBackground(new java.awt.Color(255, 204, 204));
+        btnRecursos.setFont(new java.awt.Font("Fira Sans", 1, 24)); // NOI18N
+        btnRecursos.setText("Gestionar Recursos");
+        btnRecursos.addActionListener(this::btnRecursosActionPerformed);
+
+        btnPrestamos.setBackground(new java.awt.Color(255, 204, 204));
+        btnPrestamos.setFont(new java.awt.Font("Fira Sans", 1, 24)); // NOI18N
+        btnPrestamos.setText("Gestionar Préstamo");
+        btnPrestamos.addActionListener(this::btnPrestamosActionPerformed);
+
+        btnHistorial.setBackground(new java.awt.Color(255, 204, 204));
+        btnHistorial.setFont(new java.awt.Font("Fira Sans", 1, 24)); // NOI18N
+        btnHistorial.setText("Historial");
+        btnHistorial.addActionListener(this::btnHistorialActionPerformed);
+
+        btnCerrarSesion.setBackground(new java.awt.Color(204, 51, 0));
+        btnCerrarSesion.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.addActionListener(this::btnCerrarSesionActionPerformed);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDocentes, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRecursos, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(30, Short.MAX_VALUE))
+            .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(btnDocentes, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(btnRecursos, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(btnPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cardDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardRecursos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardActivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardVencidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardDocentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(182, 182, 182))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cardDocentes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(cardRecursos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(cardDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(cardMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(63, 63, 63)
+                        .addComponent(cardActivos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(cardVencidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDocentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocentesActionPerformed
+        FrmDocente frm = new FrmDocente();
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnDocentesActionPerformed
+
+    private void btnRecursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecursosActionPerformed
+      FrmRecurso frm = new FrmRecurso();
+      frm.setVisible(true);
+    }//GEN-LAST:event_btnRecursosActionPerformed
+
+    private void btnPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestamosActionPerformed
+        FrmPrestamo frm = new FrmPrestamo();
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnPrestamosActionPerformed
+
+    private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
+        FrmHistorialPrestamos frm = new FrmHistorialPrestamos();
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnHistorialActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        FrmLogin login = new FrmLogin();
+        login.setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +449,28 @@ public class FrmDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnDocentes;
+    private javax.swing.JButton btnHistorial;
+    private javax.swing.JButton btnPrestamos;
+    private javax.swing.JButton btnRecursos;
+    private javax.swing.JPanel cardActivos;
+    private javax.swing.JPanel cardDisponibles;
+    private javax.swing.JPanel cardDocentes;
+    private javax.swing.JPanel cardMantenimiento;
+    private javax.swing.JPanel cardRecursos;
+    private javax.swing.JPanel cardVencidos;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblActivos;
+    private javax.swing.JLabel lblDisponibles;
+    private javax.swing.JLabel lblDocentes;
+    private javax.swing.JLabel lblMantenimiento;
+    private javax.swing.JLabel lblRecursos;
+    private javax.swing.JLabel lblVencidos;
     // End of variables declaration//GEN-END:variables
 }

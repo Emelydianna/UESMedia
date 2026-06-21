@@ -8,14 +8,14 @@ package uesmedia.vista;
  *
  * @author emely
  */
-public class FrmPrestamos extends javax.swing.JFrame {
+public class FrmHistorialPrestamos extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmPrestamos.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmHistorialPrestamos.class.getName());
 
     /**
-     * Creates new form FrmPrestamos
+     * Creates new form FrmHistorialPrestamo
      */
-    public FrmPrestamos() {
+    public FrmHistorialPrestamos() {
         initComponents();
     }
 
@@ -66,7 +66,7 @@ public class FrmPrestamos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmPrestamos().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new FrmHistorialPrestamos().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

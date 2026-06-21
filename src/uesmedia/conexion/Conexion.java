@@ -44,8 +44,11 @@ public class Conexion {
 
         try {
 
-            Properties props = new Properties();
+            Class.forName(
+                "com.mysql.cj.jdbc.Driver"
+            );
 
+            Properties props = new Properties();
 
             props.load(
                 new FileInputStream(
@@ -53,23 +56,20 @@ public class Conexion {
                 )
             );
 
-
             URL = props.getProperty("db.url");
             USER = props.getProperty("db.user");
             PASSWORD = props.getProperty("db.password");
 
-
-        } catch (IOException e) {
+        } catch (Exception e) {
 
             System.out.println(
                 "Error cargando configuración: "
                 + e.getMessage()
             );
+
         }
 
     }
-
-
 
     public static Connection getConexion() {
 

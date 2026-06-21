@@ -16,6 +16,76 @@ import uesmedia.modelo.DetallePrestamo;
  */
 public class PrestamoDAO {
 
+    // LISTAR PRÉSTAMOS
+    public ArrayList<Prestamo> listar() {
+
+        ArrayList<Prestamo> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM prestamos";
+
+        try(Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+
+            while(rs.next()) {
+
+                Prestamo p = new Prestamo();
+
+                p.setId(rs.getInt("id"));
+                p.setDocenteId(rs.getInt("docente_id"));
+                p.setFechaInicio(rs.getDate("fecha_inicio"));
+                p.setFechaFin(rs.getDate("fecha_fin"));
+                p.setFechaDevolucion(rs.getDate("fecha_devolucion"));
+                p.setEstado(rs.getString("estado"));
+
+                lista.add(p);
+            }
+
+        } catch(Exception e) {
+
+            System.out.println(e);
+
+        }
+
+        return lista;
+    }
+
+    // BUSCAR PRÉSTAMO POR ID
+    public Prestamo buscar(int id) {
+
+        String sql =
+        "SELECT * FROM prestamos WHERE id=?";
+
+        try(Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()) {
+
+                Prestamo p = new Prestamo();
+
+                p.setId(rs.getInt("id"));
+                p.setDocenteId(rs.getInt("docente_id"));
+                p.setFechaInicio(rs.getDate("fecha_inicio"));
+                p.setFechaFin(rs.getDate("fecha_fin"));
+                p.setFechaDevolucion(rs.getDate("fecha_devolucion"));
+                p.setEstado(rs.getString("estado"));
+
+                return p;
+            }
+
+        } catch(Exception e) {
+
+            System.out.println(e);
+
+        }
+
+        return null;
+    }
+
     // REGISTRAR PRESTAMO COMPLETO
     public boolean registrarPrestamo(
             Prestamo prestamo,
@@ -27,7 +97,6 @@ public class PrestamoDAO {
 
             con = Conexion.getConexion();
 
-            // iniciar transacción
             con.setAutoCommit(false);
 
             String sqlPrestamo =
@@ -53,8 +122,7 @@ public class PrestamoDAO {
 
             psPrestamo.executeUpdate();
 
-            ResultSet rs =
-            psPrestamo.getGeneratedKeys();
+            ResultSet rs = psPrestamo.getGeneratedKeys();
 
             int prestamoId = 0;
 
@@ -84,21 +152,13 @@ public class PrestamoDAO {
 
                 psDetalle.setInt(1, prestamoId);
                 psDetalle.setInt(2, detalle.getRecursoId());
-                psDetalle.setString(
-                        3,
-                        detalle.getEstadoEntrega()
-                );
-                psDetalle.setString(
-                        4,
-                        detalle.getEstadoRetorno()
-                );
+                psDetalle.setString(3, detalle.getEstadoEntrega());
+                psDetalle.setString(4, detalle.getEstadoRetorno());
 
                 psDetalle.executeUpdate();
 
                 PreparedStatement psRecurso =
-                con.prepareStatement(
-                        sqlActualizarRecurso
-                );
+                con.prepareStatement(sqlActualizarRecurso);
 
                 psRecurso.setInt(
                         1,
@@ -106,14 +166,13 @@ public class PrestamoDAO {
                 );
 
                 psRecurso.executeUpdate();
-
             }
 
             con.commit();
 
             return true;
 
-        }catch(Exception e){
+        } catch(Exception e){
 
             try{
 
@@ -123,7 +182,7 @@ public class PrestamoDAO {
 
                 }
 
-            }catch(Exception ex){
+            } catch(Exception ex){
 
                 System.out.println(ex);
 
@@ -133,7 +192,7 @@ public class PrestamoDAO {
 
             return false;
 
-        }finally{
+        } finally {
 
             try{
 
@@ -143,7 +202,7 @@ public class PrestamoDAO {
 
                 }
 
-            }catch(Exception e){
+            } catch(Exception e){
 
                 System.out.println(e);
 
@@ -152,5 +211,93 @@ public class PrestamoDAO {
         }
 
     }
+    //Método de disponibilidad del recurso 
+    public boolean recursoDisponible(
+        int recursoId){
 
+        String sql =
+        "SELECT estado "
+        + "FROM recursos "
+        + "WHERE id=?";
+
+        try(Connection con =
+                Conexion.getConexion();
+
+            PreparedStatement ps =
+                con.prepareStatement(sql)){
+
+            ps.setInt(1,recursoId);
+
+            ResultSet rs =
+                    ps.executeQuery();
+
+            if(rs.next()){
+
+                return rs.getString(
+                        "estado"
+                ).equals(
+                        "DISPONIBLE"
+                );
+
+            }
+
+        }catch(Exception e){
+
+            System.out.println(e);
+
+        }
+
+        return false;
+    }
+    //Contar prestamos activos
+    public int contarPrestamosActivos() {
+
+        int total = 0;
+
+        String sql =
+            "SELECT COUNT(*) FROM prestamos WHERE estado='ACTIVO'";
+
+        try (
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return total;
+    }
+    //Contar prestamos vencidos 
+    public int contarPrestamosVencidos() {
+
+        int total = 0;
+
+        String sql =
+            "SELECT COUNT(*) FROM prestamos " +
+            "WHERE fecha_fin < CURDATE() " +
+            "AND estado='ACTIVO'";
+
+        try (
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return total;
+    }
+    
 }

@@ -12,52 +12,63 @@ public class UsuarioDAO {
 
 
     // LOGIN
-    public Usuario iniciarSesion(String correo, String password){
+   public Usuario iniciarSesion(
+    String correo,
+    String password){
 
+   
+    String sql =
+    "SELECT * FROM usuarios "
+    + "WHERE correo=? "
+    + "AND password=?";
 
-        String sql = 
-        "SELECT * FROM usuarios WHERE correo=? AND password=?";
+    try(Connection con =
+            Conexion.getConexion();
 
+        PreparedStatement ps =
+            con.prepareStatement(sql)){
 
-        try(Connection con = Conexion.getConexion();
-            PreparedStatement ps = con.prepareStatement(sql)){
+        ps.setString(1, correo);
+        ps.setString(2, password);
 
-
-            ps.setString(1, correo);
-            ps.setString(2, password);
-
-
-            ResultSet rs = ps.executeQuery();
-
+        try(ResultSet rs =
+                ps.executeQuery()){
 
             if(rs.next()){
 
+                Usuario u =
+                        new Usuario();
 
-                Usuario u = new Usuario();
+                u.setId(
+                        rs.getInt("id")
+                );
 
+                u.setNombre(
+                        rs.getString("nombre")
+                );
 
-                u.setId(rs.getInt("id"));
-                u.setNombre(rs.getString("nombre"));
-                u.setCorreo(rs.getString("correo"));
-
+                u.setCorreo(
+                        rs.getString("correo")
+                );
 
                 return u;
-
             }
-
-
-        }catch(Exception e){
-
-            System.out.println("Error login: "+e);
 
         }
 
+    }catch(Exception e){
 
-        return null;
+        System.out.println(
+                "Error login: "
+                + e.getMessage()
+        );
 
     }
 
+    return null;
 
+
+    }
 
     // VERIFICAR SI EXISTE EL CORREO
     // antes de cambiar contraseña

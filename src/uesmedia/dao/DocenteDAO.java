@@ -174,6 +174,80 @@ public class DocenteDAO {
 
     }
 
+    // Búsqueda individual
+    public Docente buscarPorId(int id){
 
+        String sql =
+        "SELECT * FROM docentes WHERE id=?";
 
+        try(Connection con =
+                Conexion.getConexion();
+
+            PreparedStatement ps =
+                con.prepareStatement(sql)){
+
+            ps.setInt(1, id);
+
+            ResultSet rs =
+                    ps.executeQuery();
+
+            if(rs.next()){
+
+                Docente d =
+                        new Docente();
+
+                d.setId(
+                        rs.getInt("id")
+                );
+
+                d.setCarnet(
+                        rs.getString("carnet")
+                );
+
+                d.setNombre(
+                        rs.getString("nombre")
+                );
+
+                d.setTelefono(
+                        rs.getString("telefono")
+                );
+
+                d.setCorreo(
+                        rs.getString("correo")
+                );
+
+                return d;
+
+            }
+
+        }catch(Exception e){
+
+            System.out.println(e);
+
+        }
+
+        return null;
+    }
+    //Contador 
+    public int contarDocentes() {
+        int total = 0;
+
+        String sql = "SELECT COUNT(*) FROM docentes";
+
+        try (
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error al contar docentes: " + e.getMessage());
+        }
+
+        return total;
+    }
 }

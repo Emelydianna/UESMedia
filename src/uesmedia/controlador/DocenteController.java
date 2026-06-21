@@ -11,18 +11,18 @@ import javax.swing.table.DefaultTableModel;
 
 import uesmedia.dao.DocenteDAO;
 import uesmedia.modelo.Docente;
-import uesmedia.vista.FrmDocentes;
+import uesmedia.vista.FrmDocente;
 
 /**
  *
  * @author emely
  */
 public class DocenteController {
-    private FrmDocentes vista;
+    private FrmDocente vista;
     private DocenteDAO dao;
 
     public DocenteController(
-            FrmDocentes vista) {
+            FrmDocente vista) {
 
         this.vista = vista;
         this.dao = new DocenteDAO();
@@ -49,7 +49,18 @@ public class DocenteController {
         d.setCorreo(
                 vista.getTxtCorreo().getText()
         );
+        if(d.getCarnet().trim().isEmpty()
+                || d.getNombre().trim().isEmpty()
+                || d.getTelefono().trim().isEmpty()
+                || d.getCorreo().trim().isEmpty()){
 
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "Complete todos los campos"
+            );
+
+            return;
+        }
         if(dao.insertar(d)) {
 
             JOptionPane.showMessageDialog(
@@ -113,6 +124,52 @@ public class DocenteController {
                 listar();
 
             }
+
+        }
+
+    }
+    //Actualizar Docente
+    public void actualizar(){
+
+        Docente d = new Docente();
+
+        d.setId(
+            Integer.parseInt(
+                vista.getTxtId().getText()
+            )
+        );
+
+        d.setCarnet(
+            vista.getTxtCarnet().getText()
+        );
+
+        d.setNombre(
+            vista.getTxtNombre().getText()
+        );
+
+        d.setTelefono(
+            vista.getTxtTelefono().getText()
+        );
+
+        d.setCorreo(
+            vista.getTxtCorreo().getText()
+        );
+
+        if(dao.actualizar(d)){
+
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "Docente actualizado"
+            );
+
+            listar();
+
+        }else{
+
+            JOptionPane.showMessageDialog(
+                    vista,
+                    "Error al actualizar"
+            );
 
         }
 

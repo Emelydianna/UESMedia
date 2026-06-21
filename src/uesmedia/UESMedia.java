@@ -4,6 +4,8 @@
  */
 package uesmedia;
 
+import uesmedia.vista.FrmLogin;
+
 /**
  *
  * @author emely
@@ -14,7 +16,12 @@ public class UESMedia {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        java.awt.EventQueue.invokeLater(() -> {
+            FrmLogin login = new FrmLogin();
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+        });
+
     }
-    
 }
