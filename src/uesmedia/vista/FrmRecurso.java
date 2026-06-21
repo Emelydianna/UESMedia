@@ -4,6 +4,17 @@
  */
 package uesmedia.vista;
 
+import java.util.ArrayList;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import uesmedia.controlador.MarcaController;
+import uesmedia.controlador.ModeloController;
+import uesmedia.controlador.RecursoController;
+import uesmedia.modelo.Marca;
+import uesmedia.modelo.Modelo;
+import uesmedia.modelo.Recurso;
+
 /**
  *
  * @author emely
@@ -11,14 +22,102 @@ package uesmedia.vista;
 public class FrmRecurso extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmRecurso.class.getName());
-
+    private RecursoController recursoController;
+    private MarcaController marcaController;
+    private ModeloController modeloController;
+    private ArrayList<Marca> listaMarcas;
+     private ArrayList<Modelo> listaModelos;
+    
     /**
      * Creates new form FrmRecurso
      */
     public FrmRecurso() {
         initComponents();
-    }
 
+        recursoController = new RecursoController();
+        marcaController = new MarcaController();
+        modeloController = new ModeloController();
+
+        cargarMarcas();
+        cargarModelos();
+        listar();
+        
+        txtFechaRegistro.setEnabled(false);
+
+        txtFechaRegistro.setText(
+                java.time.LocalDate.now().toString()
+        );
+
+        
+    }
+    
+    private void cargarMarcas(){
+
+        cbMarca.removeAllItems();
+
+        listaMarcas = marcaController.listar();
+
+        for(Marca marca : listaMarcas){
+
+            cbMarca.addItem(
+                    marca.getNombre()
+            );
+
+        }
+
+    }
+    
+    private void listar(){
+
+        RecursoController rc =
+                new RecursoController();
+
+        DefaultTableModel modelo =
+                (DefaultTableModel)
+                tblRecursos.getModel();
+
+        modelo.setRowCount(0);
+
+        for(Recurso r : rc.listarConDetalle()){
+
+            modelo.addRow(new Object[]{
+
+                r.getId(),
+                r.getCodigo(),
+                r.getNombre(),
+                r.getTipo(),
+                r.getNombreMarca(),
+                r.getNombreModelo(),
+                r.getEstado(),
+                r.isEnMantenimiento() ? "Si" : "No",
+                r.getDescripcion(),
+                r.getFechaRegistro()
+
+            });
+
+        }
+
+    }
+    
+    private void limpiar(){
+
+        txtId.setText("");
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtDescripcion.setText("");
+
+        cbMarca.setSelectedIndex(0);
+        cbModelo.setSelectedIndex(0);
+        cbTipo.setSelectedIndex(0);
+        cbEstado.setSelectedIndex(0);
+
+        chkMantenimiento.setSelected(false);
+
+        txtFechaRegistro.setText(
+                java.time.LocalDate.now().toString()
+        );
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,21 +127,527 @@ public class FrmRecurso extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
+        cbModelo = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDescripcion = new javax.swing.JTextArea();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblRecursos = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
+        txtFechaRegistro = new javax.swing.JTextField();
+        txtId = new javax.swing.JTextField();
+        cbMarca = new javax.swing.JComboBox<>();
+        cbEstado = new javax.swing.JComboBox<>();
+        chkMantenimiento = new javax.swing.JCheckBox();
+        cbTipo = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        btnGuardar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel2.setText("Nombre:");
+
+        jLabel3.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel3.setText("Codigo:");
+
+        jLabel4.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel4.setText("Marca:");
+
+        jLabel5.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel5.setText("Tipo:");
+
+        jLabel6.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel6.setText("Descripcion:");
+
+        jLabel7.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel7.setText("Estado:");
+
+        txtCodigo.addActionListener(this::txtCodigoActionPerformed);
+
+        cbModelo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laptop", "Proyector", "Cámara", "Micrófono", "Pantalla", "Otro" }));
+
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setRows(5);
+        jScrollPane1.setViewportView(txtDescripcion);
+
+        jLabel8.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel8.setText("Modelo:");
+
+        tblRecursos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Código", "Nombre", "Tipo", "Marca", "Modelo", "Estado", "Mantenimiento", "Descripción", "Fecha Registro"
+            }
+        ));
+        tblRecursos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRecursosMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblRecursos);
+
+        jLabel9.setFont(new java.awt.Font("Fira Sans", 1, 18)); // NOI18N
+        jLabel9.setText("Fecha registro");
+
+        txtFechaRegistro.setFont(new java.awt.Font("Fira Sans", 1, 14)); // NOI18N
+        txtFechaRegistro.setEnabled(false);
+
+        txtId.setFont(new java.awt.Font("Fira Sans", 1, 14)); // NOI18N
+        txtId.setText("Id");
+        txtId.setEnabled(false);
+
+        cbMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMarca.addActionListener(this::cbMarcaActionPerformed);
+
+        cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DISPONIBLE", "PRESTADO", "MANTENIMIENTO", "DAÑADO" }));
+
+        chkMantenimiento.setText("Marca esta casilla si está \nen Mantenimiento Preventivo");
+        chkMantenimiento.addActionListener(this::chkMantenimientoActionPerformed);
+
+        cbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Laptop", "Proyector", "Cámara", "Micrófono", "Tablet", "Otro" }));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7))
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtFechaRegistro))
+                        .addComponent(chkMantenimiento)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(57, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(cbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9)
+                    .addComponent(txtFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addComponent(chkMantenimiento)
+                .addContainerGap(57, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        btnGuardar.setBackground(new java.awt.Color(153, 0, 0));
+        btnGuardar.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+
+        btnEliminar.setBackground(new java.awt.Color(153, 0, 0));
+        btnEliminar.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
+        btnActualizar.setBackground(new java.awt.Color(153, 0, 0));
+        btnActualizar.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(this::btnActualizarActionPerformed);
+
+        btnLimpiar.setBackground(new java.awt.Color(153, 0, 0));
+        btnLimpiar.setFont(new java.awt.Font("Fira Sans", 1, 13)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel4.setBackground(new java.awt.Color(153, 0, 0));
+
+        jLabel1.setFont(new java.awt.Font("Fira Sans", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Gestión de Recursos UES-Media");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(365, 365, 365))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(jLabel1)
+                .addContainerGap(60, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(97, 97, 97))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+        try {
+
+           if(cbModelo.getSelectedIndex() == -1){
+               JOptionPane.showMessageDialog(
+                       this,
+                       "Seleccione un modelo"
+               );
+               return;
+           }
+
+           Modelo modelo =
+                   listaModelos.get(
+                           cbModelo.getSelectedIndex()
+                   );
+
+           int modeloId =
+                   modelo.getId();
+
+           RecursoController rc =
+                   new RecursoController();
+
+           boolean ok = rc.guardar(
+                   modeloId,
+                   txtCodigo.getText(),
+                   txtNombre.getText(),
+                   cbTipo.getSelectedItem().toString(),
+                   txtDescripcion.getText(),
+                   cbEstado.getSelectedItem().toString(),
+                   chkMantenimiento.isSelected(),
+                   new java.sql.Date(System.currentTimeMillis())
+           );
+
+           if(ok){
+
+               JOptionPane.showMessageDialog(
+                       this,
+                       "Recurso registrado correctamente"
+               );
+
+               listar();
+               limpiar();
+
+           }else{
+
+               JOptionPane.showMessageDialog(
+                       this,
+                       "Error al registrar recurso"
+               );
+
+           }
+
+       }catch(Exception e){
+
+           JOptionPane.showMessageDialog(
+                   this,
+                   e.getMessage()
+           );
+
+       }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+         if(txtId.getText().isEmpty()){
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Seleccione un recurso"
+            );
+
+            return;
+        }
+
+        int opcion =
+                JOptionPane.showConfirmDialog(
+                        this,
+                        "¿Desea eliminar este recurso?"
+                );
+
+        if(opcion == JOptionPane.YES_OPTION){
+
+            RecursoController rc =
+                    new RecursoController();
+
+            boolean ok =
+                    rc.eliminar(
+                            Integer.parseInt(
+                                    txtId.getText()
+                            )
+                    );
+
+            if(ok){
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Recurso eliminado"
+                );
+
+                listar();
+                limpiar();
+
+            }
+
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+         limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void cbMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMarcaActionPerformed
+         cargarModelos();
+    }//GEN-LAST:event_cbMarcaActionPerformed
+    
+        private void cargarModelos(){
+
+            cbModelo.removeAllItems();
+
+            int indiceMarca =
+                    cbMarca.getSelectedIndex();
+
+            if(indiceMarca == -1){
+                return;
+            }
+
+            Marca marca =
+                    listaMarcas.get(indiceMarca);
+
+            listaModelos =
+                    modeloController.listarPorMarca(
+                            marca.getId()
+                    );
+
+            for(Modelo modelo : listaModelos){
+
+                cbModelo.addItem(
+                        modelo.getNombre()
+                );
+
+            }
+
+        }
+    private void chkMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMantenimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkMantenimientoActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if(txtId.getText().isEmpty()){
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Seleccione un recurso"
+            );
+
+            return;
+        }
+
+        Modelo modelo =
+                listaModelos.get(
+                        cbModelo.getSelectedIndex()
+                );
+
+        int modeloId =
+                modelo.getId();
+
+        RecursoController rc =
+                new RecursoController();
+
+        boolean ok = rc.actualizar(
+                Integer.parseInt(txtId.getText()),
+                modeloId,
+                txtCodigo.getText(),
+                txtNombre.getText(),
+                cbTipo.getSelectedItem().toString(),
+                txtDescripcion.getText(),
+                cbEstado.getSelectedItem().toString(),
+                chkMantenimiento.isSelected()
+        );
+
+        if(ok){
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Recurso actualizado"
+            );
+
+            listar();
+            limpiar();
+
+        }else{
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al actualizar"
+            );
+
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void tblRecursosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRecursosMouseClicked
+        int fila = tblRecursos.getSelectedRow();
+
+        txtId.setText(
+                tblRecursos.getValueAt(fila,0).toString()
+        );
+
+        txtCodigo.setText(
+                tblRecursos.getValueAt(fila,1).toString()
+        );
+
+        txtNombre.setText(
+                tblRecursos.getValueAt(fila,2).toString()
+        );
+
+        cbTipo.setSelectedItem(
+                tblRecursos.getValueAt(fila,3).toString()
+        );
+
+        cbEstado.setSelectedItem(
+                tblRecursos.getValueAt(fila,6).toString()
+        );
+
+        chkMantenimiento.setSelected(
+                tblRecursos.getValueAt(fila,7)
+                .toString()
+                .equals("Si")
+        );
+        txtDescripcion.setText(
+                tblRecursos.getValueAt(fila,8).toString()
+        );
+    }//GEN-LAST:event_tblRecursosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -70,5 +675,39 @@ public class FrmRecurso extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnEditar;
+    private javax.swing.JButton BtnEliminar;
+    private javax.swing.JButton BtnGuardar;
+    private javax.swing.JButton BtnLimpiar;
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JComboBox<String> cbEstado;
+    private javax.swing.JComboBox<String> cbMarca;
+    private javax.swing.JComboBox<String> cbModelo;
+    private javax.swing.JComboBox<String> cbTipo;
+    private javax.swing.JCheckBox chkMantenimiento;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblRecursos;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextField txtFechaRegistro;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

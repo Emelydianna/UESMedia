@@ -129,4 +129,5 @@ public class Recurso {
     public void setNombreModelo(String nombreModelo) {
         this.nombreModelo = nombreModelo;
     }
+    
 }
